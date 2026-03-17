@@ -304,6 +304,43 @@ Settlement begins
 Not the other way around.
 ```
 
+```
+New States: Your SettlementAttempt lifecycle gains new pre-settlement states like:
+- AWAITING_COUNTERPARTY_INFO
+- COUNTERPARTY_VERIFIED
+- REJECTED_BY_COUNTERPARTY (a new type of failure)
+
+Every jurisdiction has different thresholds and requirements . Every VASP might use a different Travel Rule protocol or solution provider (like Notabene or Global Ledger) . Your system cannot become tightly coupled to all of them.
+
+The Pattern: You need an Anti-Corruption Layer (ACL) for Travel Rule compliance.
+
+- Standardized Interface: Your core orchestrator only knows one thing: "verify counterparty for this PaymentIntent." It doesn't care about the nuances of EU vs. UK law or Protocol A vs. Protocol B.
+
+- Encapsulates Complexity: The Travel Rule ACL contains all the logic to:
+
+1. Look up the beneficiary's VASP in a directory.
+2. Determine the required data fields based on the jurisdiction and transaction amount.
+3. Select the correct protocol and route the message to the counterparty's system.
+4. Translate the counterparty's response (e.g., "Beneficiary name mismatch") into a standardized internal event (e.g., COUNTERPARTY_REJECTED).
+
+
+The Orchestrator: The Pre-Settlement Saga
+
+The Saga pattern must now include steps that happen before any funds are moved. Because blockchain transactions are irreversible, checks after the fact are too late .
+
+A new, compliant saga for a withdrawal might look like this:
+
+Step 1: Freeze funds in the user's internal ledger.
+
+Step 2: Initiate Travel Rule Exchange. The orchestrator sends a command to a new "Travel Rule Worker" service. This worker identifies the beneficiary's VASP and securely exchanges the required identity data (often using a specialized protocol like TRP, OpenVASP, or Shyft).
+
+Step 3: Wait for Counterparty Confirmation. The saga pauses. It waits for an external event: the receiving VASP accepting the data. This could be an API callback or a message from the Travel Rule Worker.
+
+Step 4a: On Confirmation: Proceed to initiate the on-chain settlement attempt (as before).
+
+Step 4b: On Rejection or Timeout: Execute the compensating transaction (unfreeze funds) and mark the PaymentIntent as FAILED due to compliance rejection.
+
+```
 ### Jurisdictional Thresholds
 
 | Jurisdiction | Threshold | Notes |
