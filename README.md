@@ -130,33 +130,35 @@ SSE streams reconnect automatically on disconnect (client-side, 2.5 s backoff).
 
 ```
 payment-infra/
-│
-├── backend/
-│   ├── main.go           # Entire Go engine (single file, ~450 LOC)
-│   ├── go.mod
-│   ├── go.sum
-│   └── Dockerfile        # Multi-stage: golang:1.21-alpine → alpine:3.19
-│
-├── frontend/
-│   ├── src/
-│   │   ├── main.tsx
-│   │   ├── App.tsx           # Root: wires SSE hooks → layout
-│   │   ├── index.css         # CSS variables, global dark theme
-│   │   ├── types/index.ts    # Full TypeScript domain types
-│   │   ├── hooks/useSSE.ts   # SSE hooks with auto-reconnect
-│   │   └── components/
-│   │       ├── Topbar.tsx        # Header: throughput, volume, discrepancy
-│   │       ├── MetricsPanel.tsx  # Left: stats, sparkline, rail bars
-│   │       ├── IntentFeed.tsx    # Center: live feed + drill-down detail
-│   │       └── RightPanel.tsx    # Right: travel rule pie, audit trail
-│   ├── index.html
-│   ├── nginx.conf        # SSE-aware proxy config
-│   ├── vite.config.ts
-│   ├── tsconfig.json
-│   ├── package.json
-│   └── Dockerfile        # Multi-stage: node:20-alpine → nginx:1.25-alpine
-│
-├── docker-compose.yml    # Wires backend + frontend; health-check dependency
+.
+├── backend
+│   ├── Dockerfile      # Multi-stage: golang:1.21-alpine → alpine:3.19
+│   ├── go.mod
+│   └── main.go         # Entire Go engine (single file, ~450 LOC)
+├── docker-compose.yml            # Wires backend + frontend; health-check dependency
+├── frontend
+│   ├── Dockerfile      # Multi-stage: node:20-alpine → nginx:1.25-alpine
+│   ├── index.html
+│   ├── nginx.conf      # SSE-aware proxy config
+│   ├── package.json
+│   ├── postcss.config.js
+│   ├── src
+│   │   ├── App.tsx                         # Root: wires SSE hooks → layout
+│   │   ├── components
+│   │   │   ├── IntentFeed.tsx    # Center: live feed + drill-down detail
+│   │   │   ├── MetricsPanel.tsx  # Left: stats, sparkline, rail bars
+│   │   │   ├── RightPanel.tsx    # Right: travel rule pie, audit trail
+│   │   │   └── Topbar.tsx        # Header: throughput, volume, discrepancy
+│   │   ├── hooks
+│   │   │   └── useSSE.ts         # SSE hooks with auto-reconnect
+│   │   ├── index.css                       # CSS variables, global dark theme
+│   │   ├── main.tsx
+│   │   └── types
+│   │       └── index.ts                    # Full TypeScript domain types
+│   ├── tailwind.config.js
+│   ├── tsconfig.json
+│   ├── tsconfig.node.json
+│   └── vite.config.ts
 └── README.md
 ```
 
