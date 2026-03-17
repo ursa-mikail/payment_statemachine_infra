@@ -1,0 +1,72 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --bg-0: #080b10;
+    --bg-1: #0d1117;
+    --bg-2: #131920;
+    --bg-3: #192028;
+    --bg-4: #1f2833;
+    --border: rgba(255,255,255,0.07);
+    --border-hi: rgba(255,255,255,0.14);
+    --text-0: #f0f4f8;
+    --text-1: #8b9ab0;
+    --text-2: #4a5a70;
+    --green:  #00e5a0;
+    --green-d:#003d2b;
+    --red:    #ff4d6a;
+    --red-d:  #3d0010;
+    --amber:  #fbbf24;
+    --amber-d:#3d2800;
+    --blue:   #38bdf8;
+    --blue-d: #0c2d40;
+    --purple: #a78bfa;
+    --purple-d:#1e0a3d;
+    --teal:   #2dd4bf;
+    --mono: 'IBM Plex Mono', monospace;
+    --sans: 'Syne', sans-serif;
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body, #root {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    background: var(--bg-0);
+    color: var(--text-0);
+    font-family: var(--sans);
+    font-size: 13px;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  ::-webkit-scrollbar { width: 3px; height: 3px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--bg-4); border-radius: 2px; }
+
+  /* Animated entry */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(6px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes pulse-dot {
+    0%, 100% { opacity: 1; }
+    50%       { opacity: 0.2; }
+  }
+  @keyframes scan {
+    0%   { transform: translateY(0); opacity: 0.5; }
+    100% { transform: translateY(100vh); opacity: 0; }
+  }
+
+  .fade-up { animation: fadeUp 0.25s ease forwards; }
+
+  .live-dot {
+    display: inline-block;
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--green);
+    animation: pulse-dot 1.4s ease-in-out infinite;
+  }
+}
