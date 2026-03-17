@@ -41,14 +41,10 @@ That's it. No Go, Node, or npm needed on your machine.
 ## Quickstart (Docker — recommended)
 
 ```bash
-# 1. Clone / unzip the project
-git clone <repo-url> payment-infra
-cd payment-infra
-
-# 2. Build and start both services
+# 1. Build and start both services
 docker compose up --build
 
-# 3. Open the dashboard
+# 2. Open the dashboard
 open http://localhost:3000
 ```
 
