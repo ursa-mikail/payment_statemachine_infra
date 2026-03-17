@@ -284,6 +284,12 @@ exchange originator and beneficiary information on transfers. This engine
 enforces it as a **hard pre-settlement gate** — no on-chain action is taken
 until the compliance check resolves.
 
+If you thought a delayed callback was stressful, imagine a regulator asking why you settled a transaction for a sanctioned entity because you couldn't verify the counterparty in time. The Travel Rule is the mechanism that forces you to solve the identity and data exchange problem before you touch the settlement problem.
+
+Here is how the Travel Rule intersects with the resilient infrastructure.
+
+At its core, the Travel Rule is an anti-money laundering (AML) regulation from the Financial Action Task Force (FATF) . It requires Virtual Asset Service Providers (VASPs)—like exchanges, custodians, and potentially your platform—to share specific originator and beneficiary information when transferring funds . This brings crypto transactions in line with traditional wire transfers. 
+
 ### Why Before Settlement?
 
 Blockchain transactions are **irreversible**. If you settle on-chain and
